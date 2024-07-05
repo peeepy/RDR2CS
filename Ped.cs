@@ -1,12 +1,7 @@
-// using System.Numerics;
-// using RDONativesWrapper;
 // using System.Reflection;
 // using System.Reflection.Metadata;
 // using System.Runtime.Serialization;
 // using System.Text.Json.Serialization;
-//
-// using Ped = int;
-// using Hash = int;
 //
 // namespace RDR2CS;
 //
@@ -16,7 +11,7 @@
 // 		bool blockNewPedMovement = false, bool spawnDead = false, 
 // 		bool invincible = false, bool invisible = false, int scale = 1)
 //     {
-//         Hash model = JoaatUtil.Joaat(modelName); // check why joaat wnts a uint when eevrything else (model) wants an int, convert if needed?
+//         Hash model = (int)JoaatUtil.Joaat(modelName); // c# can't implicitly convert between uint and int, so for now we're explicitly converting it to an int where needed
 //
 //         if (STREAMING.IS_MODEL_IN_CDIMAGE(model) == 0 || STREAMING.IS_MODEL_VALID(model) == 0) // import STREAMING native
 //         {
@@ -27,8 +22,7 @@
 //         for (int i = 0; i < 30 && STREAMING.HAS_MODEL_LOADED(model) == 0; i++)
 //         {
 //             STREAMING.REQUEST_MODEL(model, 0);
-//             // import ScriptMgr from wrapper
-//             ScriptWrapper.Yield();
+//             ScriptMgr.Yield(null);
 //         }
 //
 //         Int32 ped = PED.CREATE_PED(model, coords.X, coords.Y, coords.Z, heading, 1, 0, 0, 0);

@@ -1,41 +1,77 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RDONativesWrapper;
+using System.IO;
+using System.Reflection;
+using System.Threading;
+using System.Runtime.InteropServices;
+using RDR2CS;
 
 namespace RDR2CS
 {
-    class Program
+    public class Program
     {
-        void Main()
+        private static string GetFileDirectory(string subdir)
         {
-            Console.WriteLine("Testing DLL functionality");
-
-            // Test your DLL functions here
+            string execDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            if (execDir == null)
+            {
+                throw new InvalidOperationException("Unable to determine the executable directory.");
+            }
+            string subDir = subdir; // Replace with your subdirectory name
+        
+            // Combine the executable directory with the subdirectory name
+            string fullPath = Path.Combine(execDir, subDir);
+        
+            // Ensure the directory exists
+            string documents = Directory.Exists(fullPath) ? fullPath : Directory.CreateDirectory(fullPath).FullName;
+            return documents;
+        }
+        
+        public static int Main()
+        {
             try
             {
-                // Example: Initialize the logger
                 Logger.Init("RDR2CS", "test.log");
-                // Logger.ToggleConsole(true);
-                // Log some messages
-                LOG.INFO("Testing DLL functionality");
-                LOG.INFO("This is an info message");
-                LOG.WARNING("This is a warning message");
-
-                // Test other functions from your DLL
+                Logger.ToggleConsole(true);
+                LOG.INFO("C# initialization started");
+                LOG.INFO("Initializing native low-level components...");
                 
-                Console.WriteLine("DLL functions tested successfully");
+                // Call native low-level initialization
+                // string directory = GetFileDirectory("documents");
+                FileMgr.Init(GetFileDirectory("documents"));
+                LOG.INFO("FileMgr initialized");
+                
+                Byte_Patch_Manager.Init();
+                try
+                {
+                    // Hooking.Init();
+                    // LOG.INFO("Hooking initialized");
+                
+                    ScriptMgr.Init();
+                    LOG.INFO("ScriptMgr initialized");
+                
+                    FiberPool.Init(5);
+                    LOG.INFO("FiberPool initialized");
+                }
+                catch (Exception ex)
+                {
+                    LOG.ERROR($"Initialization failed: {ex.Message}");
+                    return -1;
+                }
+
+                // TODO Make GUI settings class
+                LOG.INFO("All native low-level components initialized");
+                
+                // Other initializations...
+                    
+                // Start main mod loop or setup
+                Notifications.Show("RDR2CS", "Loaded successfully", NotificationType.Success);
+                return 0;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                LOG.ERROR($"Initialization failed: {ex.Message}");
+                return -1;
             }
-            
-
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
         }
     }
 }
