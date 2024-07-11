@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RDR2CS": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
