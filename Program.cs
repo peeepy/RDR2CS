@@ -44,6 +44,7 @@ namespace RDR2CS
                         EmergencyLogger.LogError("Starting initialization...");
                         try
                         {
+                            FileMgr.Init(GetFileDirectory("RDR2CS"));
                             Logger.Init("RDR2CS", FileMgr.GetProjectFile("./output.log"));
                             EmergencyLogger.LogError("Logger initialized successfully.");
                         }
@@ -101,6 +102,7 @@ namespace RDR2CS
                         //     EmergencyLogger.LogError($"Stack Trace: {ex.StackTrace}");
                         // }
 
+                        // NOTE: ScriptMgr STOPS THE FUNCTION FROM RUNNING! TODO: FIX.
                         // try
                         // {
                         //     ScriptMgr.Init();
@@ -137,7 +139,7 @@ namespace RDR2CS
                     // Other initializations...
 
                     // Start main mod loop or setup
-                    // Notifications.Show("RDR2CS", "Loaded successfully", NotificationType.Success);
+                    Notifications.Show("RDR2CS", "Loaded successfully", NotificationType.Success);
                     // Your initialization code here
                     _isInitialized = true;
                 }
