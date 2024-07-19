@@ -17,13 +17,13 @@ namespace RDR2CS
 
         [DllImport("RDONatives.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern bool Logger_Init(string projectName, string settingsPath, bool attachConsole);
-        
+
         [DllImport("RDONatives.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Logger_Destroy();
-        
+
         [DllImport("RDONatives.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Logger_ToggleConsole(bool toggle);
-        
+
         [DllImport("RDONatives.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Logger_Log(int level, string message);
 

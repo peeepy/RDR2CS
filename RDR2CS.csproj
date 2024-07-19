@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <StartupObject></StartupObject>
     <OutputType>Library</OutputType>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -22,7 +23,7 @@
 
   <ItemGroup>
     <Reference Include="RDONativesWrapper">
-      <HintPath>..\..\x64\Debug\RDONativesWrapper.dll</HintPath>
+      <HintPath>..\..\x64\Release\RDONativesWrapper.dll</HintPath>
     </Reference>
   </ItemGroup>
 
